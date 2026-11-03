@@ -1,12 +1,13 @@
 Package: ergMargins
 Type: Package
 Title: Process Analysis for Exponential Random Graph Models
-Version: 1.6.2.9000
+Version: 1.6.2.9001
 Authors@R: c(person("Scott", "Duxbury", email = "duxbury@email.unc.edu", role = c("aut", "cph")),
     person("Ben", "Rosche", email = "benjamin.rosche@gmail.com", role = c("ctb", "cre")))
 Maintainer: Ben Rosche <benjamin.rosche@gmail.com>
 Description: Unofficial fork of 'ergMargins' 1.6.2 by Scott Duxbury, in which marginal
-    effects respect the model's sample-space constraints, such as blockdiag().
+    effects respect the model's sample-space constraints, such as blockdiag(),
+    and the layers of multilayer models fitted with 'ergm.multi'.
     Calculates marginal effects and conducts process analysis in exponential family random graph models (ERGM).
     Includes functions to conduct mediation and moderation analyses and to diagnose
     multicollinearity.

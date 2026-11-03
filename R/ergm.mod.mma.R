@@ -21,7 +21,7 @@ ergm.mod.mma<-function(restricted.model,full.model,var1, var2, inter,mediator,
   }
   ##check at.controls appear in both models
   if(!is.null(at.controls)){
-    if(class(restricted.model)%in%"mlergm"){
+    if(inherits(restricted.model, "mlergm")){
       theta1<-restricted.model$theta
       theta2<-full.model$theta
 

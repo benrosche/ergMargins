@@ -9,7 +9,10 @@ ergMargins v 1.6
 ==================
 - New GW_helper function to compute scalar values when using curved terms in the computation of marginal structural effects
 - Updates for curved family ERGM and mtergm objects 
-ergMargins v 1.6.2.9000 (unofficial fork, github.com/benrosche/ergMargins, branch "constraints")
+ergMargins v 1.6.2.9001 (unofficial fork, github.com/benrosche/ergMargins, branch "constraints")
 ==================
 - ergm.AME, ergm.MEM, and ergm.MSE now pass the model's constraints to ergmMPLE(), so marginal effects are averaged over the dyads the model allows. Before, a model fitted with constraints = ~ blockdiag("classid") was averaged over all dyads, including pairs in different blocks that the model rules out. Models without constraints, or with constraints that do not remove dyads, such as bd(maxout = 5), give the same results as in 1.6.2.
 - edge.prob2 now returns only the dyads that a single-network ergm's constraints allow; for a blockdiag() model, pairs in different blocks are no longer listed. Probabilities of the listed dyads are unchanged. btergm, mtergm, and mlergm objects behave as in 1.6.2.
+- Multilayer models (ergm.multi): for a term of one layer, such as L(support)~nodematch.x, ergm.AME, ergm.MEM, and ergm.MSE now average over the dyads of that layer only. Before, they also averaged over the other layers' dyads, where the term does not enter the tie probability. Cross-layer terms, such as L(support&opposition)~edges, are still averaged over all layers.
+- edge.prob2 now works for multilayer models. Before, it stopped with "'length = 2' in coercion to 'logical(1)'" because the combined network has two classes.
+- Class checks of the form if(class(x) %in% ...) are replaced by inherits(), so objects with more than one class, such as matrices in R >= 4.0, no longer cause errors in R >= 4.2.

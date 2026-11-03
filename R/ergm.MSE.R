@@ -90,7 +90,9 @@ ergm.MSE<-function(model,
     dyad.mat<-ergmMPLE(model$formula,output="dyadlist",basis=model$network,constraints=model$constraints,
                        control=control.ergm(
                          term.options = list(interact.dependent="message")))
+    layer.rows<-layer_rows(model$network,dyad.mat$predictor,c(substructural_effect,higher_order_term,lower_order_term,var2))
     dyad.mat<-dyad.mat$predictor[,-c(1:2)]
+    if(!is.null(layer.rows)){dyad.mat<-dyad.mat[layer.rows,,drop=FALSE]}
     vc <- stats::vcov(model)
 
   }

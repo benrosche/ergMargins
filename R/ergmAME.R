@@ -80,7 +80,9 @@ ergm.AME<-function(model,
   }else{
 
     dyad.mat<-ergmMPLE(model$formula,output="dyadlist",basis=model$network,constraints=model$constraints)
+    layer.rows<-layer_rows(model$network,dyad.mat$predictor,c(var1,var2))
     dyad.mat<-dyad.mat$predictor[,-c(1:2)]
+    if(!is.null(layer.rows)){dyad.mat<-dyad.mat[layer.rows,,drop=FALSE]}
     vc <- stats::vcov(model)
 
   }

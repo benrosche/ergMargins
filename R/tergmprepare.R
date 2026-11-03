@@ -7,8 +7,7 @@ tergmprepare2<-function (formula, offset = TRUE, blockdiag = FALSE, verbose = TR
   l <- list()
   l$lhs.original <- deparse(formula[[2]])
   l$networks <- eval(parse(text = deparse(formula[[2]])), envir = environment(formula))
-  if (class(l$networks) %in% "list" || class(l$networks) %in%
-      "network.list") {
+  if (inherits(l$networks, "list") || inherits(l$networks, "network.list")) {
   } else {
     l$networks <- list(l$networks)
   }
@@ -17,8 +16,8 @@ tergmprepare2<-function (formula, offset = TRUE, blockdiag = FALSE, verbose = TR
   }
 
   for (i in 1:length(l$networks)) {
-    if (!class(l$networks[[i]]) %in% c("network", "matrix",
-                                       "list")) {
+    if (!inherits(l$networks[[i]], c("network", "matrix",
+                                       "list"))) {
       tryCatch({
         l$networks[[i]] <- as.matrix(l$networks[[i]])
       }, error = function(cond) {
@@ -463,7 +462,7 @@ tergmprepare2<-function (formula, offset = TRUE, blockdiag = FALSE, verbose = TR
             else {
               if (is.null(rn.j) && !is.null(rn.k) &&
                   nr.j == nr.k) {
-                if (class(nw.j) %in% "network") {
+                if (inherits(nw.j, "network")) {
                   network::set.vertex.attribute(nw.j,
                                                 "vertex.names", rn.k)
                 }
@@ -473,7 +472,7 @@ tergmprepare2<-function (formula, offset = TRUE, blockdiag = FALSE, verbose = TR
               }
               else if (is.null(rn.k) && !is.null(rn.j) &&
                        nr.j == nr.k) {
-                if (class(nw.k) %in% "network") {
+                if (inherits(nw.k, "network")) {
                   network::set.vertex.attribute(nw.k,
                                                 "vertex.names", rn.j)
                 }
@@ -707,7 +706,7 @@ tergmprepare2<-function (formula, offset = TRUE, blockdiag = FALSE, verbose = TR
     l$offsmat <- l$offsmat + bdoffset
     rm(bdoffset)
     l$offsmat[l$offsmat > 0] <- 1
-    if (class(l$networks[[1]]) %in% "network") {
+    if (inherits(l$networks[[1]], "network")) {
       attrnames <- network::list.vertex.attributes(l$networks[[1]])
       attributes <- list()
       for (i in 1:length(l$networks)) {

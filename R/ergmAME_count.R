@@ -255,7 +255,7 @@ ergm.AME_count<-function(model,
       dyad.submat<-dyad.mat
       dyad.submat[,var2]<-at.2[i]
 
-      if(class(model)%in%"mtergm"){
+      if(inherits(model, "mtergm")){
         if(ergm::is.curved(model@ergm)){
           theta<-ergm::ergm.eta(theta,model@ergm$etamap)
         }
@@ -274,7 +274,7 @@ ergm.AME_count<-function(model,
          p<-m*(1/(1+exp(-(apply(dyad.submat,1,function(x) t(x)%*%theta)))))
 
 
-        if(class(model)%in%"mlergm"){
+        if(inherits(model, "mlergm")){
           theta<-model$theta
           vc<-solve(vc) #invert the fisher matrix
         }else{
@@ -302,7 +302,7 @@ ergm.AME_count<-function(model,
         }
         p<-m*(1/(1+exp(-(apply(dyad.submat,1,function(x) t(x)%*%theta)))))
 
-        if(class(model)%in%"mlergm"){
+        if(inherits(model, "mlergm")){
           theta<-model$theta
           vc<-solve(vc) #invert the fisher matrix
         }else{

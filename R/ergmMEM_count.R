@@ -249,7 +249,7 @@ ergm.MEM_count<-function(model,
 
       dyad.submeans<-dyad.means
       dyad.submeans[var2]<-at.2[i]
-      if(class(model)%in%"mtergm"){
+      if(inherits(model, "mtergm")){
         if(ergm::is.curved(model@ergm)){
           theta<-ergm::ergm.eta(theta,model@ergm$etamap)
         }
@@ -269,7 +269,7 @@ ergm.MEM_count<-function(model,
         p<-mean(m)*(1/(1+exp(-(dyad.submeans%*%theta))))
 
         at.diffs<-abs(at.2[i]-dyad.submeans[var1])
-        if(class(model)%in%"mlergm"){
+        if(inherits(model, "mlergm")){
           theta<-model$theta
           vc<-solve(vc) #invert the fisher matrix
         }else{
@@ -291,7 +291,7 @@ ergm.MEM_count<-function(model,
         }
 
         p<-mean(m)*(1/(1+exp(-(dyad.submeans%*%theta))))
-        if(class(model)%in%"mlergm"){
+        if(inherits(model, "mlergm")){
           theta<-model$theta
           vc<-solve(vc) #invert the fisher matrix
         }else{

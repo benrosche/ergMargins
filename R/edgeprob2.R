@@ -7,7 +7,7 @@
 #' edge.prob2()
 
 getformula<-function(x){
-  if(class(x)%in%c("mtergm","btergm")){
+  if(inherits(x, c("mtergm","btergm"))){
     x@formula
   }else{
     x$formula
@@ -27,14 +27,14 @@ setMethod("getformula", signature = className("mlergm", "mlergm"),
 
 edge.prob2<-function (model, verbose = FALSE)
 {
-  if(class(model)%in%"btergm"){
+  if(inherits(model, "btergm")){
     out<-btergm::edgeprob(model)
     return(out)
   }
   object<-model
-  if (class(object) %in% c("ergm","mlergm")) {
+  if (inherits(object, c("ergm","mlergm"))) {
     tergm <- FALSE
-  } else if (class(object) %in% c("btergm", "mtergm")) {
+  } else if (inherits(object, c("btergm", "mtergm"))) {
     tergm <- TRUE
   } else {
     stop(paste("The edgeprob function is only applicable to ergm, btergm, and",
@@ -50,7 +50,7 @@ edge.prob2<-function (model, verbose = FALSE)
   }
 
   ##check for duplicated names
-  if(class(object)%in%c("ergm","mlergm")){
+  if(inherits(object, c("ergm","mlergm"))){
     if(any(duplicated(network::get.vertex.attribute(model$network,"vertex.names")))){
 
       size<-network::network.size(model$network)
@@ -68,7 +68,7 @@ edge.prob2<-function (model, verbose = FALSE)
   form <- stats::as.formula(l$form)
   covnames <- l$covnames[-1]
 
-  if(class(object)%in%"mlergm"){
+  if(inherits(object, "mlergm")){
     coefs<-object$theta
   }else{
     coefs <- btergm::coef(object)
@@ -93,8 +93,8 @@ edge.prob2<-function (model, verbose = FALSE)
   for (i in 1:length(l$networks)) {
     mat <- as.matrix(l$networks[[i]])
     imat <- matrix(rep(1:nrow(mat), ncol(mat)), nrow = nrow(mat))
-    if ((class(l$networks[[i]]) %in% "network" && network::is.bipartite(l$networks[[i]])) ||
-        (class(l$networks[[i]]) %in% "matrix" && is.mat.onemode(l$networks[[i]]) ==
+    if ((inherits(l$networks[[i]], "network") && network::is.bipartite(l$networks[[i]])) ||
+        (inherits(l$networks[[i]], "matrix") && is.mat.onemode(l$networks[[i]]) ==
          FALSE)) {
       mn <- nrow(mat) + 1
       mx <- nrow(mat) + ncol(mat)
@@ -119,7 +119,7 @@ edge.prob2<-function (model, verbose = FALSE)
   class(dyads[, length(colnames(dyads))]) <- "integer"
   class(dyads[, length(colnames(dyads)) - 1]) <- "integer"
   class(dyads[, length(colnames(dyads)) - 2]) <- "integer"
-  if(class(object)%in%"mlergm"){
+  if(inherits(object, "mlergm")){
     cf<-object$theta
   }else{
     cf <- btergm::coef(object)
@@ -137,7 +137,7 @@ edge.prob2<-function (model, verbose = FALSE)
   if("mlergm"%in%class(object)){
     class(object)<-"ergm"
   }
-  if(class(object)%in%"mtergm"){
+  if(inherits(object, "mtergm")){
 
     if(ergm::is.curved(object@ergm)){
       curved.term<-vector(length=length(object$etamap$curved))
