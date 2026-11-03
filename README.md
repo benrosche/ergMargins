@@ -4,7 +4,7 @@ This is an **unofficial fork** of [ergMargins](https://cran.r-project.org/packag
 
 ## What changed
 
-One change, in `ergm.AME()`, `ergm.MEM()`, and `ergm.MSE()`: the dyad list is built with the model's sample-space constraints.
+One change, in `ergm.AME()`, `ergm.MEM()`, `ergm.MSE()`, and `edge.prob2()`: the dyad list is built with the model's sample-space constraints.
 
 ```r
 # 1.6.2
@@ -17,6 +17,8 @@ dyad.mat <- ergmMPLE(model$formula, output = "dyadlist", basis = model$network,
 In 1.6.2, a model fitted with `constraints = ~ blockdiag("classid")`, for example several classrooms pooled into one network, has its marginal effects averaged over **all** dyads, including pairs in different classrooms that the model rules out. With this fork, they are averaged over the dyads the model allows.
 
 Models without constraints, or with constraints that do not remove dyads such as `bd(maxout = 5)`, give the same results as 1.6.2.
+
+`edge.prob2()` now lists only the dyads a single-network `ergm` allows, so a `blockdiag()` model no longer returns pairs from different blocks. The probabilities of the listed dyads are unchanged. For `btergm`, `mtergm`, and `mlergm` objects it behaves as in 1.6.2, because their constraints refer to a stacked network.
 
 | Model | `ergm.AME()` 1.6.2 | This fork |
 |---|---|---|

@@ -12,3 +12,4 @@ ergMargins v 1.6
 ergMargins v 1.6.2.9000 (unofficial fork, github.com/benrosche/ergMargins, branch "constraints")
 ==================
 - ergm.AME, ergm.MEM, and ergm.MSE now pass the model's constraints to ergmMPLE(), so marginal effects are averaged over the dyads the model allows. Before, a model fitted with constraints = ~ blockdiag("classid") was averaged over all dyads, including pairs in different blocks that the model rules out. Models without constraints, or with constraints that do not remove dyads, such as bd(maxout = 5), give the same results as in 1.6.2.
+- edge.prob2 now returns only the dyads that a single-network ergm's constraints allow; for a blockdiag() model, pairs in different blocks are no longer listed. Probabilities of the listed dyads are unchanged. btergm, mtergm, and mlergm objects behave as in 1.6.2.

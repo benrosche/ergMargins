@@ -82,6 +82,14 @@ edge.prob2<-function (model, verbose = FALSE)
   }
   Y <- NULL
   dyads <- NULL
+  # For a single-network ergm, return only the dyads the model's constraints
+  # allow (e.g. blockdiag()). tergm and mlergm objects keep the previous
+  # behaviour, because their constraints refer to a stacked network.
+  if (class(object)[1] %in% "ergm" && !is.null(object$constraints)) {
+    mple.constraints <- object$constraints
+  } else {
+    mple.constraints <- ~.
+  }
   for (i in 1:length(l$networks)) {
     mat <- as.matrix(l$networks[[i]])
     imat <- matrix(rep(1:nrow(mat), ncol(mat)), nrow = nrow(mat))
@@ -97,7 +105,7 @@ edge.prob2<-function (model, verbose = FALSE)
                      byrow = TRUE)
     }
     f <- stats::as.formula(paste(l$form, " + edgecov(imat) + edgecov(jmat)"))
-    mpli <- ergm::ergmMPLE(f)
+    mpli <- ergm::ergmMPLE(f, constraints = mple.constraints)
     Y <- c(Y, mpli$response)
     dyads <- rbind(dyads, cbind(mpli$predictor, i))
   }
