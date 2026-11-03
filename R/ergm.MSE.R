@@ -78,7 +78,7 @@ ergm.MSE<-function(model,
   }
 
   if(class(model)[1]%in%"mtergm"){
-    dyad.mat<-ergmMPLE(model@ergm$formula,output="dyadlist",basis=model@ergm$network)
+    dyad.mat<-ergmMPLE(model@ergm$formula,output="dyadlist",basis=model@ergm$network,constraints=model@ergm$constraints)
     dyad.mat<-dyad.mat$predictor[,-c(1:2,ncol(dyad.mat$predictor))]
     vc <- stats::vcov(model@ergm)
     vc<-vc[!rownames(vc)%in%"offset(edgecov.offsmat)",
@@ -87,7 +87,7 @@ ergm.MSE<-function(model,
 
   }else{
 
-    dyad.mat<-ergmMPLE(model$formula,output="dyadlist",basis=model$network,
+    dyad.mat<-ergmMPLE(model$formula,output="dyadlist",basis=model$network,constraints=model$constraints,
                        control=control.ergm(
                          term.options = list(interact.dependent="message")))
     dyad.mat<-dyad.mat$predictor[,-c(1:2)]
